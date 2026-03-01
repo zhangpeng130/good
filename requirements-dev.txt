@@ -1,0 +1,2 @@
+-r cloudfunctions/requirements.txt
+pytest

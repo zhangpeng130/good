@@ -1,0 +1,39 @@
+.page {
+  min-height: 100vh;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.tip {
+  color: #667085;
+  margin-bottom: 14px;
+}
+
+.input {
+  height: 46px;
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 0 12px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.btn {
+  margin-top: 6px;
+  background: #16a34a;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.hint {
+  margin-top: 10px;
+  color: #7d8798;
+  font-size: 12px;
+}
+

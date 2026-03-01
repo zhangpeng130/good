@@ -1,0 +1,72 @@
+name: good-app-ci-cd
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run unit tests
+        run: pytest -q
+
+      - name: Shell syntax check
+        run: bash -n deploy.sh
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform fmt + validate
+        run: |
+          terraform -chdir=infra init -backend=false
+          terraform -chdir=infra fmt -check
+          terraform -chdir=infra validate
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deploy tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install tccli
+
+      - name: Deploy
+        env:
+          RUN_TERRAFORM: "1"
+          TENCENT_REGION: ${{ secrets.TENCENT_REGION }}
+          COS_BUCKET: ${{ secrets.COS_BUCKET }}
+          COS_PREFIX: "functions"
+          SCF_NAMESPACE: ${{ secrets.SCF_NAMESPACE }}
+          FUNCTION_NAME_PREFIX: ${{ secrets.FUNCTION_NAME_PREFIX }}
+          TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+        run: bash deploy.sh
+

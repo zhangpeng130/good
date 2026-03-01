@@ -1,0 +1,24 @@
+{
+  "name": "good-elder-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:h5": "uni -p h5",
+    "build:h5": "uni build -p h5"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "latest",
+    "@dcloudio/uni-ui": "latest",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@dcloudio/types": "latest",
+    "@dcloudio/uni-cli-i18n": "^2.0.2-4080720251210002",
+    "@dcloudio/uni-cli-shared": "^2.0.2-4080720251210002",
+    "@dcloudio/vite-plugin-uni": "latest",
+    "sass": "^1.97.3",
+    "semver": "^7.7.4",
+    "vite": "^6.2.0",
+    "webpack": "^5.105.3"
+  }
+}
