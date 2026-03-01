@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="card">
+    <view class="title">绑定父母账号</view>
+    <view class="tip">输入老人手机号 + 老人告知的绑定码</view>
+
+    <input
+      class="input"
+      type="number"
+      maxlength="11"
+      placeholder="老人手机号"
+      value="{{elderPhone}}"
+      data-field="elderPhone"
+      bindinput="onInput"
+    />
+
+    <input
+      class="input"
+      type="number"
+      maxlength="6"
+      placeholder="6位绑定码"
+      value="{{bindingCode}}"
+      data-field="bindingCode"
+      bindinput="onInput"
+    />
+
+    <input
+      class="input"
+      placeholder="你的称呼（如：女儿）"
+      value="{{nickname}}"
+      data-field="nickname"
+      bindinput="onInput"
+    />
+
+    <input
+      class="input"
+      type="number"
+      maxlength="11"
+      placeholder="你的联系电话（用于紧急外呼）"
+      value="{{childPhone}}"
+      data-field="childPhone"
+      bindinput="onInput"
+    />
+
+    <button class="btn" loading="{{loading}}" bindtap="onBind">立即绑定</button>
+    <view class="hint">首次开发默认使用 mock openid，正式环境请替换为云开发真实 openid。</view>
+  </view>
+</view>
+

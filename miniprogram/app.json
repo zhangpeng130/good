@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/bind/bind",
+    "pages/dashboard/dashboard"
+  ],
+  "window": {
+    "navigationBarTitleText": "我很好·家属端",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
+
