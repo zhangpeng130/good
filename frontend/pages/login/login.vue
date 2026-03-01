@@ -60,7 +60,9 @@ export default {
       this.sending = true;
       try {
         const data = await sendCode(this.phone, readAloud);
-        this.tips = "验证码已发送（5分钟有效）";
+        this.tips = data.debug_code
+          ? `测试验证码：${data.debug_code}（仅测试模式）`
+          : "验证码已发送（5分钟有效）";
         if (readAloud && data.voice_audio_base64) {
           this.playAudio(data.voice_audio_base64);
         } else if (readAloud) {

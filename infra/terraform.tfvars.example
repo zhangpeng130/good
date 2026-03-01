@@ -3,6 +3,8 @@ secret_key        = "xxxxxxxx"
 region            = "ap-guangzhou"
 environment       = "prod"
 project_name      = "good"
+jwt_secret        = "PleaseUseALongRandomSecretString"
+debug_mode        = false
 vpc_id            = "vpc-xxxx"
 subnet_id         = "subnet-xxxx"
 cynosdb_zone      = "ap-guangzhou-3"
@@ -20,4 +22,5 @@ function_code_prefix = "functions"
 dashscope_api_key    = ""
 wechat_notify_webhook = ""
 voice_message_webhook = ""
+mock_external_services = false
 

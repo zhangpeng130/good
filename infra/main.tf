@@ -36,22 +36,24 @@ locals {
   function_code_bucket = var.function_code_bucket != "" ? var.function_code_bucket : local.cos_bucket_name
   function_code_prefix = trimsuffix(var.function_code_prefix, "/")
   default_function_envs = {
-    APP_NAME              = var.project_name
-    JWT_SECRET            = "replace-me-in-deploy"
-    TENCENT_REGION        = var.region
-    COS_REGION            = var.region
-    COS_BUCKET            = local.cos_bucket_name
-    SMS_SDK_APP_ID        = var.sms_sdk_app_id
-    SMS_SIGN_NAME         = var.sms_sign_name
-    SMS_TEMPLATE_ID       = var.sms_template_id
-    DB_HOST               = var.db_host
-    DB_PORT               = tostring(var.db_port)
-    DB_USER               = var.db_user
-    DB_PASSWORD           = var.db_admin_password
-    DB_NAME               = var.db_name
-    DASHSCOPE_API_KEY     = var.dashscope_api_key
-    WECHAT_NOTIFY_WEBHOOK = var.wechat_notify_webhook
-    VOICE_MESSAGE_WEBHOOK = var.voice_message_webhook
+    APP_NAME               = var.project_name
+    DEBUG                  = var.debug_mode ? "true" : "false"
+    JWT_SECRET             = var.jwt_secret
+    TENCENT_REGION         = var.region
+    COS_REGION             = var.region
+    COS_BUCKET             = local.cos_bucket_name
+    SMS_SDK_APP_ID         = var.sms_sdk_app_id
+    SMS_SIGN_NAME          = var.sms_sign_name
+    SMS_TEMPLATE_ID        = var.sms_template_id
+    DB_HOST                = var.db_host
+    DB_PORT                = tostring(var.db_port)
+    DB_USER                = var.db_user
+    DB_PASSWORD            = var.db_admin_password
+    DB_NAME                = var.db_name
+    DASHSCOPE_API_KEY      = var.dashscope_api_key
+    WECHAT_NOTIFY_WEBHOOK  = var.wechat_notify_webhook
+    VOICE_MESSAGE_WEBHOOK  = var.voice_message_webhook
+    MOCK_EXTERNAL_SERVICES = var.mock_external_services ? "true" : "false"
   }
 }
 
@@ -70,7 +72,7 @@ resource "tencentcloud_scf_function" "good" {
   runtime           = "Python3.9"
   timeout           = each.value.timeout
   mem_size          = each.value.memory
-  role              = var.scf_role_arn
+  role              = var.scf_role_arn != "" ? var.scf_role_arn : null
   cos_bucket_name   = local.function_code_bucket
   cos_bucket_region = var.region
   cos_object_name   = "${local.function_code_prefix}/${each.key}.zip"

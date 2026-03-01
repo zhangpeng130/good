@@ -13,6 +13,10 @@ def _ensure_credentials():
 
 
 def send_sms_code(phone: str, code: str) -> dict:
+    if settings.mock_external_services:
+        print(f"[mock-sms] phone={phone} code={code}")
+        return {"SendStatusSet": [{"Code": "Ok", "Message": "mock"}]}
+
     _ensure_credentials()
     if not settings.sms_sdk_app_id or not settings.sms_template_id:
         raise RuntimeError("SMS config is incomplete")
@@ -67,6 +71,10 @@ def synthesize_code_audio(code: str) -> Optional[str]:
 
 
 def upload_audio_to_cos(content: bytes, key: str, content_type: str = "audio/wav") -> str:
+    if settings.mock_external_services:
+        print(f"[mock-cos-upload] key={key} content_type={content_type} bytes={len(content)}")
+        return f"mock://{key}"
+
     _ensure_credentials()
     if not settings.cos_bucket:
         raise RuntimeError("COS bucket is not configured")

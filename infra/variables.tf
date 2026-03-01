@@ -28,6 +28,18 @@ variable "project_name" {
   default     = "good"
 }
 
+variable "jwt_secret" {
+  description = "JWT secret used by all SCF handlers"
+  type        = string
+  sensitive   = true
+}
+
+variable "debug_mode" {
+  description = "Enable DEBUG in cloudfunctions (returns debug verification code)"
+  type        = bool
+  default     = false
+}
+
 variable "vpc_id" {
   description = "VPC ID for CynosDB"
   type        = string
@@ -77,11 +89,13 @@ variable "db_name" {
 variable "scf_role_arn" {
   description = "SCF execution role ARN"
   type        = string
+  default     = ""
 }
 
 variable "sms_sdk_app_id" {
   description = "Tencent SMS sdk app id"
   type        = string
+  default     = ""
 }
 
 variable "sms_sign_name" {
@@ -93,6 +107,7 @@ variable "sms_sign_name" {
 variable "sms_template_id" {
   description = "Tencent SMS template id"
   type        = string
+  default     = ""
 }
 
 variable "cos_bucket_name" {
@@ -130,5 +145,11 @@ variable "voice_message_webhook" {
   description = "Webhook endpoint to bridge Tencent VoiceMessage send API"
   type        = string
   default     = ""
+}
+
+variable "mock_external_services" {
+  description = "Enable mock mode for SMS/COS/wechat/voice in cloudfunctions"
+  type        = bool
+  default     = false
 }
 

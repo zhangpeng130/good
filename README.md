@@ -6,6 +6,8 @@
 - 家属端：`微信小程序`，绑定父母 + 守护看板 + 一键解绑
 - 后端：`腾讯云 SCF(Python3.9)` + `COS` + `TDSQL-C(MySQL 兼容)`
 
+> 新手请先读：`docs/LOCAL_UI_TEST_AND_DEPLOY_ZH.md`
+
 ---
 
 ## 1. 项目结构

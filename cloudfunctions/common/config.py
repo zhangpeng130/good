@@ -45,6 +45,7 @@ class Settings:
     wechat_notify_webhook: str = os.getenv("WECHAT_NOTIFY_WEBHOOK", "")
     voice_message_webhook: str = os.getenv("VOICE_MESSAGE_WEBHOOK", "")
 
+    mock_external_services: bool = _get_bool("MOCK_EXTERNAL_SERVICES", default=False)
     debug: bool = _get_bool("DEBUG", default=False)
 
 
