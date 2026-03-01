@@ -43,6 +43,17 @@
 
 > 建议：Windows/macOS 直接使用官方 GUI 工具（HBuilderX、微信开发者工具）更稳定。
 
+### 2.0 Windows 用户先看（很重要）
+
+你是 Windows 的话，建议采用这个组合：
+
+- **PowerShell 7**：执行 Terraform、tccli、Python 命令
+- **Git Bash**：执行 `deploy.sh` 这类 Bash 脚本
+- **HBuilderX**：运行老人端（uni-app）
+- **微信开发者工具**：运行家属端（小程序）
+
+> 不建议首次就在纯 CMD 下折腾脚本兼容，按上面的组合最省心。
+
 ### 2.1 必装软件
 
 1. **Git**
@@ -67,6 +78,8 @@ tccli --version
 ```
 
 全部有输出即通过。
+
+Windows 下推荐在 **PowerShell** 执行以上命令。
 
 ---
 
@@ -121,6 +134,15 @@ python3 -m pip install -r requirements-dev.txt
 python3 -m pytest -q
 ```
 
+PowerShell（Windows）可直接执行：
+
+```powershell
+git clone <你的仓库地址>
+Set-Location good
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
 看到 `passed` 即后端核心逻辑正常。
 
 ---
@@ -132,6 +154,13 @@ python3 -m pytest -q
 ```bash
 cd infra
 cp terraform.tfvars.example terraform.tfvars
+```
+
+PowerShell 写法：
+
+```powershell
+Set-Location infra
+Copy-Item terraform.tfvars.example terraform.tfvars
 ```
 
 ### 5.2 修改 `terraform.tfvars`
@@ -163,6 +192,8 @@ terraform plan
 terraform apply
 ```
 
+PowerShell 下命令完全一致。
+
 成功后会输出：
 
 - COS bucket 名称
@@ -178,6 +209,12 @@ terraform apply
 
 ```bash
 mysql -h <db_host> -u <db_user> -p < ../db/schema.sql
+```
+
+PowerShell 推荐写法（避免重定向兼容问题）：
+
+```powershell
+Get-Content ..\db\schema.sql | mysql -h <db_host> -u <db_user> -p
 ```
 
 执行后请确认表都创建成功（`users`、`verification_codes`、`bindings`、`heartbeats`、`sos_events` 等）。
@@ -196,6 +233,27 @@ SCF_NAMESPACE=good-prod \
 FUNCTION_NAME_PREFIX=good-prod \
 TENCENT_REGION=ap-guangzhou \
 bash deploy.sh
+```
+
+Windows 推荐两种方式：
+
+### 方式 A：Git Bash 里执行（最简单）
+
+```bash
+cd /c/你的路径/good
+chmod +x deploy.sh
+COS_BUCKET=<你的bucket> SCF_NAMESPACE=good-prod FUNCTION_NAME_PREFIX=good-prod TENCENT_REGION=ap-guangzhou bash deploy.sh
+```
+
+### 方式 B：在 PowerShell 调 Git Bash 执行
+
+```powershell
+$env:COS_BUCKET = "<你的bucket>"
+$env:SCF_NAMESPACE = "good-prod"
+$env:FUNCTION_NAME_PREFIX = "good-prod"
+$env:TENCENT_REGION = "ap-guangzhou"
+
+bash .\deploy.sh
 ```
 
 说明：
@@ -259,6 +317,14 @@ VITE_API_BASE=https://你的网关域名/prod
 
 ```bash
 cd frontend
+npm install --legacy-peer-deps
+npx uni -p h5
+```
+
+PowerShell 写法：
+
+```powershell
+Set-Location frontend
 npm install --legacy-peer-deps
 npx uni -p h5
 ```
@@ -445,6 +511,16 @@ bash deploy.sh
 
 1. 优先用 HBuilderX 运行与打包。
 2. Node 建议固定 18 LTS。
+
+### Q6：PowerShell 里执行 `bash deploy.sh` 报“找不到 bash”
+
+原因：Git Bash 未安装或未加入 PATH。
+
+解决：
+
+1. 安装 Git for Windows（安装时勾选 Git Bash）。
+2. 重新打开 PowerShell 后执行：`bash --version`。
+3. 仍失败的话，改为在 Git Bash 终端直接执行第 7 节命令。
 
 ---
 
